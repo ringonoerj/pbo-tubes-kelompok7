@@ -6,7 +6,7 @@ class ReplicationGuidePDF(FPDF):
         if self.page_no() > 1:
             self.set_font('helvetica', 'I', 8)
             self.set_text_color(150, 150, 150)
-            self.cell(0, 10, 'SMARTCASHIER - Panduan Replikasi Proyek dari Nol', 0, 0, 'L')
+            self.cell(0, 10, 'SMARTCASHIER - Dokumentasi Proyek', 0, 0, 'L')
             self.cell(0, 10, 'Kelompok 7', 0, 1, 'R')
             self.set_draw_color(220, 220, 220)
             self.line(10, 18, 200, 18)
@@ -21,14 +21,16 @@ class ReplicationGuidePDF(FPDF):
 def clean_text(text):
     if not text:
         return ""
-    # Replace tabs with spaces
     text = text.replace('\t', '    ')
-    # Filter out characters that cannot be represented in Latin-1
     return "".join(c for c in text if ord(c) < 256)
 
 def generate_pdf(md_path, pdf_path):
-    pdf = ReplicationGuidePDF()
+    # Explicitly set A4 format and portrait orientation
+    pdf = ReplicationGuidePDF(orientation='P', unit='mm', format='A4')
     pdf.alias_nb_pages()
+    
+    # Set display mode to fit to screen (fullpage)
+    pdf.set_display_mode(zoom='fullpage')
     
     # Title Page
     pdf.add_page()
@@ -39,7 +41,7 @@ def generate_pdf(md_path, pdf_path):
     
     pdf.set_font('helvetica', 'B', 14)
     pdf.set_text_color(71, 85, 105) # Slate 600
-    pdf.cell(0, 10, clean_text('PANDUAN REPLIKASI PROYEK DARI NOL'), 0, 1, 'C')
+    pdf.cell(0, 10, clean_text('DOKUMENTASI & PANDUAN PROYEK'), 0, 1, 'C')
     pdf.ln(10)
     
     # Horizontal line
@@ -99,7 +101,6 @@ def generate_pdf(md_path, pdf_path):
             if line_clean.strip() == '':
                 pdf.ln(3)
             else:
-                # Use explicit width 190 (A4 size with 10mm margins)
                 pdf.multi_cell(190, 4, line_clean, border=0, align='L', fill=True)
         else:
             pdf.set_text_color(30, 41, 59)
@@ -122,24 +123,13 @@ def generate_pdf(md_path, pdf_path):
                 pdf.ln(1)
             elif line.startswith('* ') or line.startswith('- '):
                 pdf.set_font('helvetica', '', 9.5)
-                # Bullet character
                 pdf.cell(5, 5, chr(149), 0, 0, 'C')
-                # Bullet text
                 pdf.multi_cell(185, 5, clean_text(line[2:]))
             elif line.strip() == '':
                 pdf.ln(3)
             else:
-                # Normal text
                 pdf.set_font('helvetica', '', 9.5)
                 pdf.multi_cell(190, 5, line_clean)
 
     pdf.output(pdf_path)
     print(f"PDF successfully generated at: {pdf_path}")
-
-if __name__ == '__main__':
-    md_file = r"C:\Users\Ringo Noer J\AppData\Local\Temp\antigravity-artifacts\replication_guide.md"
-    if not os.path.exists(md_file):
-        md_file = r"C:\Users\Ringo Noer J\.gemini\antigravity\brain\01c05f91-77a9-425f-bf34-fe5cc091b7fe\artifacts\replication_guide.md"
-    
-    pdf_out = r"c:\PROJECT\pbo-tubes-kelompok7\REPLICATION_GUIDE.pdf"
-    generate_pdf(md_file, pdf_out)

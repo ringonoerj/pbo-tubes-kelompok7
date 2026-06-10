@@ -1,0 +1,71 @@
+```mermaid
+classDiagram
+    class User {
+        <<abstract>>
+        #String id
+        #String name
+        #String phoneNumber
+        +displayProfile()* void
+    }
+
+    class Karyawan {
+        -String employeeId
+        -String password
+        -double kpiScore
+        +login(String inputId, String inputPassword) boolean
+        +getKpiScore() double
+        +displayProfile() void
+    }
+
+    class Member {
+        -String joinDate
+        -double discountRate
+        +applyDiscount(double amount) double
+        +displayProfile() void
+    }
+
+    User <|-- Karyawan
+    User <|-- Member
+
+    class Product {
+        -Integer id
+        -String productName
+        -String category
+        -int quantity
+        -double price
+    }
+
+    class Transaction {
+        -Integer id
+        -String transactionId
+        -Karyawan karyawan
+        -Member member
+        -double totalAmount
+        -LocalDateTime transactionDate
+        -List~TransactionItem~ items
+        +calculateTotal() void
+    }
+
+    class TransactionItem {
+        -Integer id
+        -Transaction transaction
+        -Product product
+        -int quantity
+        -double subtotal
+    }
+
+    class CalculatorTools {
+        <<utility>>
+        +add(double a, double b)$ double
+        +subtract(double a, double b)$ double
+        +multiply(double a, double b)$ double
+        +divide(double a, double b)$ double
+        +modulo(double a, double b)$ double
+    }
+
+    Transaction "1" *-- "many" TransactionItem : contains
+    TransactionItem "many" --> "1" Product : reference
+    Transaction "many" --> "1" Karyawan : handled by
+    Transaction "many" --> "0..1" Member : discount for
+    Transaction ..> CalculatorTools : uses
+```
