@@ -40,6 +40,8 @@ public class Karyawan extends User {
 
     public double getKpi() { return this.kpiScore; }
     public void setKpi(double kpiScore) { this.kpiScore = kpiScore; }
+    public double getKpiScore() { return this.kpiScore; }
+    public void setKpiScore(double kpiScore) { this.kpiScore = kpiScore; }
     public void addKpi(double score) { this.kpiScore += score; }
 
     public String getEmployeeId() { return employeeId; }

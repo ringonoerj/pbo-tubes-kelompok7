@@ -1,0 +1,24 @@
+# Dependency directories
+/frontend/node_modules/
+/backend/target/
+/frontend/dist/
+
+# IDE specific files
+/.vscode/
+/.idea/
+/*.iml
+/nbproject/private/
+/frontend/nbproject/private/
+/backend/nbproject/private/
+.nb-gradle/
+.factorypath
+.project
+.classpath
+.settings/
+
+# OS specific files
+Thumbs.db
+.DS_Store
+
+# Log files
+*.log
