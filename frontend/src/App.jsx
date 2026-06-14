@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Login from './components/Login.jsx'
 import Dashboard from './components/Dashboard.jsx'
 import ProductManager from './components/ProductManager.jsx'
+import KaryawanManager from './components/KaryawanManager.jsx'
 import Receipt from './components/Receipt.jsx'
-import { Layout, LogOut, Award, ShoppingBag, FolderOpen } from 'lucide-react'
+import { Layout, LogOut, Award, ShoppingBag, FolderOpen, Users } from 'lucide-react'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
@@ -80,6 +81,14 @@ function App() {
             <FolderOpen size={16} />
             Kelola Produk
           </button>
+          <button 
+            className={`btn ${activePage === 'karyawan' ? 'btn-primary' : 'btn-outline'}`} 
+            onClick={() => { setActivePage('karyawan'); refreshKPI(); }}
+            style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+          >
+            <Users size={16} />
+            Kelola Karyawan
+          </button>
         </nav>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
@@ -112,6 +121,9 @@ function App() {
         )}
         {activePage === 'products' && (
           <ProductManager />
+        )}
+        {activePage === 'karyawan' && (
+          <KaryawanManager />
         )}
         {activePage === 'receipt' && (
           <Receipt transactionId={activeReceiptId} onBack={() => setActivePage('dashboard')} />
